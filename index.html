@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Skyline — weather, beautifully</title>
+<meta name="description" content="Skyline: a weather app that shows you the sky, not just the numbers." />
+
+<!-- Fonts: Fraunces (display, personality) + Manrope (UI) + JetBrains Mono (data) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="root">
+  <!-- Fallback shown until React mounts -->
+  <div class="boot-loader" id="boot-loader">
+    <div class="boot-sun"></div>
+    <p id="boot-message">Reading the sky…</p>
+  </div>
+</div>
+
+<!-- React 18 (UMD build) is the only thing loaded from a CDN besides fonts.
+     Everything else below is plain JavaScript (no JSX, no Babel-in-browser),
+     so it works the same whether you open this file directly or serve it locally. -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+<script src="js/weatherCodes.js"></script>
+<script src="js/api.js"></script>
+<script src="js/components.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+  // Watchdog: if the app hasn't replaced the boot loader within a few seconds,
+  // something failed to load (usually a blocked CDN or offline connection) —
+  // show a clear message instead of spinning forever.
+  setTimeout(function () {
+    var loader = document.getElementById("boot-loader");
+    if (!loader) return; // app already mounted and removed it
+    var msg = document.getElementById("boot-message");
+    if (typeof React === "undefined" || typeof ReactDOM === "undefined") {
+      msg.textContent = "Couldn't load React from the CDN — check your internet connection, or that unpkg.com isn't blocked, then reload.";
+    } else {
+      msg.textContent = "Something kept the app from starting. Check the browser console (F12) for details, then reload.";
+    }
+  }, 6000);
+</script>
+
+</body>
+</html>
